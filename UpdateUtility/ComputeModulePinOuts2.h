@@ -26,7 +26,6 @@
 #define BUTTON4	15
 #define BUTTON5	16
 #define BUTTON6	17
-//#define BUTTON7	17
 #define RST_ROTENC_FFS	25
 #define ROTENC_OUTB	36
 #define ROTENC_OUTA	37
@@ -43,9 +42,7 @@
 #define ADC_DATA	20
 #define DAC_DATA	21
 
-//#define DATA_RXED0	28
 #define DATA_RDY0	29
-//#define nPOWER_OFF	34
 #define POWER_BUTTON	35
 #define IN2_AC_COUPLED	41
 #define IN2_DC_COUPLED	42

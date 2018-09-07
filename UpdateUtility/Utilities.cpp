@@ -20,7 +20,4 @@ void clearBuffer(char *buffer, int bufferSize)
 void pabort(const char *s)
 {
 	perror(s);
-	//abort();
-	//goto exit;
 }
-

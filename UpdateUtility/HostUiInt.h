@@ -10,16 +10,11 @@
 
 #include "UsbInt.h"
 #include <vector>
-//#include "utilityFunctions.h"
-//#include "FileSystemFuncts.h"
 #include "GPIOClass.h"
-//#include "structs.h"
-//using namespace std;
 #define FILE_SIZE 32000
 class HostUiInt
 {
 private:
-	//char comboData[FILE_SIZE];
 	UsbInt usb;
 	char hostUiRawRequestCharArray[FILE_SIZE];
 	char hostUiRequestCharArray[FILE_SIZE];
@@ -37,15 +32,9 @@ public:
 	bool isPortOpen();
 	int close();
 	bool isConnected();
-	//int sendControlTypeData();
-	//int sendComponentData();
 	int checkForNewHostData(void);
 	string getUserRequest(void);
-	//int sendComboList(string comboLists);
 	int sendCurrentStatus(char *currentStatus);
-//	int sendCurrentData(vector<IndexedProcessParameter> currentParams);
-//	int sendComboToHost(string comboName);
-//	string getComboFromHost(string comboData);
 	int sendSimpleResponse(char *response);
 	void clearAllInternalCharArrays(void);
 };

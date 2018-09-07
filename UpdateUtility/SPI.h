@@ -35,17 +35,11 @@ public:
 
 
 private:
-
-
-//
 	char txBuffer[TX_BUFFER_SIZE];
 	char rxBuffer[RX_BUFFER_SIZE];
-	//int spiFD;
 protected:
 
 public:
-
-
 
 	uint8_t status;
 	uint8_t sendData(char *data, unsigned int length);

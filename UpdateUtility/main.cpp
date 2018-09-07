@@ -31,7 +31,6 @@ bool debugOutput = true;
 int main(void)
 {
 	int osSelected = 0;
-	//string osSelectedName = "test";
 	usbDetect.export_gpio();
 	usbDetect.setdir_gpio("in");
 	int buttonPushed = -1;
@@ -42,9 +41,23 @@ int main(void)
 	char gadget[10] = "";
 	long exitLoopCount = 0;
 	bool sftpAccess = false;
-	//bool update = false;
+	string hostUiRequest;
+	string hostUiRequestCommand;
+	string hostUiRequestData;
+	bool hostUiRequestIsValid = false;
+	bool zipFileRecieved = false;
+	char updateZipFileString[20] = "";
+	char parseUpdateZipFileString[20] = "";
+	int size = 0;
+	int previousSize = 0;
+	char *zipFileSizeStringPtr = NULL;
+	char *zipFilePathNameStringPtr = NULL;
+
+	char version[7] = "      ";
+
+
+
 	if(pedalUi.isPowerButtonPushed() == true)
-	//while(_exit == false)
 	{
 		usleep(100000);
 
@@ -54,10 +67,7 @@ int main(void)
 			{
 
 				FILE *gadgetDetect = popen("ls /sys/kernel/config/usb_gadget/","r");
-				while((fgets(gadget,5,gadgetDetect)) != NULL)
-				{
-					//cout << gadget << endl;
-				}
+				while((fgets(gadget,5,gadgetDetect)) != NULL);
 				pclose(gadgetDetect);
 
 				if(gadget[0] != 'g')
@@ -85,17 +95,14 @@ int main(void)
 								{
 								case 0:		// Windows selected
 									osSelected = 1;
-									//osSelectedName = "Windows";
 									system("/root/AcmRndisUsbInit");
 									break;
 								case 1:		// Mac OS X selected
 									osSelected = 2;
-									//osSelectedName = "Mac OS X";
 									system("/root/AcmEcmUsbInit");
 									break;
 								case 2:		// Linux selected
 									osSelected = 3;
-									//osSelectedName = "Linux";
 									system("/root/AcmEcmUsbInit");
 									break;
 								default:;
@@ -105,28 +112,68 @@ int main(void)
 					}
 
 				}
+				hostUi.connect();
 				if(exitLoopCount++ == 0)
 				{
-					pedalUi.writeLcdLine(1,"Press left arrow " );
-					pedalUi.writeLcdLine(2,"to update pedal");
-					pedalUi.writeLcdLine(3,"Press right arrow " );
-					pedalUi.writeLcdLine(4,"for SFTP access" );
+					pedalUi.writeLcdLine(1,"FLX Update Menu" );
+					pedalUi.writeLcdLine(2,"<: Update pedal");
+					pedalUi.writeLcdLine(3,">: SFTP access " );
+
 				}
-
-
-				while(pedalUi.isWindowsBackdoorAccessRequested() == false &&
-						pedalUi.isMacLinuxBackdoorAccessRequested() == false);
+				while(pedalUi.isUpdateRequested() == false &&
+						pedalUi.isSFTPAccessRequested() == false);
 				/********************** UPDATING SECTION ********************************/
-				if(pedalUi.isWindowsBackdoorAccessRequested() == true)//if(pedalUi.isPowerButtonPushed() == true)
-				//if((isUsbConnected() == true))
+				if(pedalUi.isUpdateRequested() == true)
+
 				{
-
-					//while(pedalUi.isPowerButtonPushed() == true); // power button also shuts off pedal
-																	//, so this should be a quick push/release
-
 					pedalUi.writeLcdLine(1,"Ready for Update");
 					pedalUi.writeLcdLine(2,"press left arrow");
 					pedalUi.writeLcdLine(3,"to cancel update");
+					/********************** Wait for update sync from editor **********************/
+					while(hostUiRequestIsValid == false)
+					{
+						hostUi.clearAllInternalCharArrays();
+				        if(hostUi.checkForNewHostData() == 1)
+				        {
+				        	hostUiRequest = hostUi.getUserRequest();
+
+							if(debugOutput) cout << "HOST UI REQUEST: " << hostUiRequest << endl;
+							if(debugOutput) cout << "hostUiRequest size: " << hostUiRequest.size() << endl;
+
+							/************ Validate and clean-up user request first ******************/
+							if(hostUiRequest.size() >  15)
+							{
+								hostUiRequestIsValid = true;
+								hostUiRequest.erase(remove(hostUiRequest.begin(), hostUiRequest.end(), '\n'), hostUiRequest.end());
+								hostUiRequest.erase(remove(hostUiRequest.begin(), hostUiRequest.end(), '\r'), hostUiRequest.end());
+								for(unsigned int charIndex = 0; charIndex < hostUiRequest.size(); charIndex++)
+								{
+									if((hostUiRequest[charIndex] < ' ' || '~' < hostUiRequest[charIndex]))
+									{
+										hostUiRequestIsValid = false;
+										break;
+									}
+								}
+							}
+				        }
+						if(pedalUi.isUpdateRequested() == true)
+						/************** Cancel out of Update mode **************/
+						{
+							zipFileRecieved = true;
+							size = 0;
+
+							break;
+						}
+						/***************** request is clean and valid *********************/
+
+					}
+			        cout << " clean hostUiRequest: " << hostUiRequest << endl;
+			        if(hostUiRequest.compare("getCurrentStatus") == 0)
+			        {
+			        	hostUi.sendCurrentStatus("ready for update");
+			        }
+
+
 					/**************** Wait for folder to load *************/
 					bool zipFileRecieved = false;
 					char updateZipFileString[20] = "";
@@ -137,7 +184,7 @@ int main(void)
 					char *zipFilePathNameStringPtr = NULL;
 
 					char version[7] = "      ";
-					while(pedalUi.isWindowsBackdoorAccessRequested() == true);
+					while(pedalUi.isUpdateRequested() == true);
 					while(zipFileRecieved == false)
 					{
 						sleep(1);
@@ -145,7 +192,7 @@ int main(void)
 						int passCount = 0;
 						while(fgets(updateZipFileString, 100, getZipFileFD) != NULL)
 						{
-							if(pedalUi.isWindowsBackdoorAccessRequested() == true)
+							if(pedalUi.isUpdateRequested() == true)
 							/************** Cancel out of Update mode **************/
 							{
 								zipFileRecieved = true;
@@ -164,7 +211,6 @@ int main(void)
 								size = atoi(zipFileSizeStringPtr);
 								if(size == previousSize)
 								{
-									//char *tempChar = NULL;
 									char *prefixNamePtr = NULL;
 									char *suffixNamePtr = NULL;
 									prefixNamePtr = strstr(zipFilePathNameStringPtr,"flx_");
@@ -215,10 +261,6 @@ int main(void)
 						_exit = true;
 						pedalUi.writeLcdLine(1,"Update Done ");
 						pedalUi.writeLcdLine(2,tempString);
-						/*pedalUi.writeLcdLine(1,"            " );
-						pedalUi.writeLcdLine(2,(char *)"Update Done" );
-						pedalUi.writeLcdLine(3,"            " );
-						pedalUi.writeLcdLine(4,"            " );*/
 					}
 					else
 					{
@@ -229,7 +271,7 @@ int main(void)
 
 				}
 				/*************************** PLAIN SFTP ACCESS SECTION **************************/
-				else if((pedalUi.isMacLinuxBackdoorAccessRequested() == true) && sftpAccess == false)
+				else if((pedalUi.isSFTPAccessRequested() == true) && sftpAccess == false)
 				{
 					sftpAccess = true;
 					pedalUi.writeLcdLine(1,"SFTP Access Granted");
@@ -237,18 +279,22 @@ int main(void)
 					pedalUi.writeLcdLine(3,"to release access");
 
 					_exit = false;
-					while(pedalUi.isMacLinuxBackdoorAccessRequested() == true);
+					while(pedalUi.isSFTPAccessRequested() == true);
 				}
-				else if((pedalUi.isMacLinuxBackdoorAccessRequested() == true) && sftpAccess == true)
+				else if((pedalUi.isSFTPAccessRequested() == true) && sftpAccess == true)
 				{
 					sftpAccess = false;
 					pedalUi.writeLcdLine(1,"SFTP Access Released");
 
 					_exit = true;
-					while(pedalUi.isMacLinuxBackdoorAccessRequested() == true);
+					while(pedalUi.isSFTPAccessRequested() == true);
 				}
 
 			}
+			sleep(2);
+			hostUi.disconnect();
+			pedalUi.writeLcdLine(1,"Powering off");
+			system("poweroff");
 		}
 		else
 		{
@@ -259,21 +305,7 @@ int main(void)
 		}
 	}
 
-	//*if(backdoorAccessRequested == true)
-	{
-		while(1)
-		{
-			if(pedalUi.isPowerButtonPushed() == true)
-			{
-				usleep(10000);
-				if(pedalUi.isPowerButtonPushed() == true)
-				{
-					break;
-				}
-			}
-		}
-		system("poweroff");
-	}
+
 	exit(0);
 	return 0;
 }
@@ -290,7 +322,6 @@ bool isUsbConnected()
 
 	usbDetect.getval_gpio(usbLine);
 	if(usbLine == 1) status = true;
-	//if(pedalUi.readButtons() == 5) status = true;
 
 #if(dbg >= 1)
 	cout << "********** EXITING FlxPedalUi:main::isUsbConnected: " << status << endl;
