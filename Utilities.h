@@ -26,11 +26,10 @@
 #include <cstring>
 #include <iostream>
 #include <json/json.h>
-
+#include <algorithm>
 using namespace std;
 
-extern "C" void clearBuffer(char *buffer, int bufferSize);
+void clearBuffer(char *buffer, int bufferSize);
 void pabort(const char *s);
-
-
+bool validateString(string &data);
 #endif /* UTILITIES_H_ */

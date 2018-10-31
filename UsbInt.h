@@ -20,33 +20,37 @@
 #include <cstring>
 #include <iostream>
 #include <errno.h>
+#include <signal.h>
+#include "config.h"
 #include "Utilities.h"
 #include "ComputeModulePinOuts2.h"
-
-#define FILE_SIZE 32000
+#include "GPIOClass.h"
 using namespace std;
 
-class UsbInt {
+class UsbInt
+{
 private:
-	char usbInputBuffer[FILE_SIZE];
-	char usbCleanInputBuffer[FILE_SIZE];
-	char usbOutputBuffer[FILE_SIZE];
 
-	int hostUiFD;
-	int connectionStatus;
-	int portOpenStatus;
+	int osSelected = 3;
+	char gadget[10] = "";
+	int usbFD;
+	bool connectionStatus;
+	bool portOpenStatus;
+	bool usbConfigStatus;
+	GPIOClass usbDetect;
+	void acmEcmUsbInit();
+	void acmRndisUsbInit();
 public:
 	UsbInt();
-	~UsbInt();
-	int connect();
-	int disconnect();
+	virtual ~UsbInt();
+	bool isUsbCableConnected();
+	int configureUsbGadgetForOs(int selectedOs);
 	int openPort();
+	bool isUsbConfigured();
 	bool isPortOpen();
 	int closePort();
-	int isConnected();
-	int newData(void);
-	char* readData(void);
-	int writeData(char* input);
+	string readNewData(void);
+	int writeData(string input);
 };
 
 #endif /* USBINT_H_ */
