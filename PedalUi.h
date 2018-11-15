@@ -37,7 +37,10 @@
 #define LCD_LINE4_ADDR 0x54
 #define SET_DDRAM_ADDRESS 0x80
 
-using namespace std;
+namespace std
+{
+
+
 
 
 
@@ -71,5 +74,5 @@ public:
 	void powerOff();
 
 };
-
+}
 #endif /* PEDALUI_H_ */

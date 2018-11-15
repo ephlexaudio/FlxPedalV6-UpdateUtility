@@ -23,8 +23,9 @@
 #include "PedalUi.h"
 #include "UpdateFileHandler.h"
 
+using namespace std;
 
-bool debugOutput = true;
+
 
 int main(void)
 {

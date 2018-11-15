@@ -7,7 +7,11 @@
 
 #include "Utilities.h"
 
-using namespace std;
+namespace std
+{
+
+
+
 
 void clearBuffer(char *buffer, int bufferSize)
 {
@@ -42,4 +46,4 @@ bool validateString(string &data)
 
 	return dataIsValid;
 }
-
+}

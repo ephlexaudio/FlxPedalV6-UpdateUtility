@@ -8,6 +8,10 @@
 
 using namespace std;
 
+namespace std
+{
+
+
 GPIOClass::GPIOClass()
 {
 	this->gpionum = 4; //GPIO4 is default
@@ -146,4 +150,5 @@ int/*string*/ GPIOClass::get_gpionum(){
 
 return this->gpionum;
 
+}
 }

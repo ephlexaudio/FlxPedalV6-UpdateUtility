@@ -8,9 +8,13 @@
 #include "config.h"
 #include "UsbInt.h"
 
-using namespace std;
 
-extern bool debugOutput;
+
+
+namespace std
+{
+
+
 
 UsbInt::UsbInt()
 {
@@ -167,7 +171,7 @@ int UsbInt::openPort()
 		}
 		else
 		{
-			if(debugOutput) cout << "failed to open USB:"  << errno << endl;
+			 cout << "failed to open USB:"  << errno << endl;
 			this->portOpenStatus = false;
 		}
 	}
@@ -194,7 +198,7 @@ int UsbInt::closePort()
 	}
 	else
 	{
-		if(debugOutput) cout << "failed to close USB: " << errno << endl;
+		 cout << "failed to close USB: " << errno << endl;
 	}
 #if(dbg >= 1)
 	cout << "********** EXITING UsbInt::closePort: " << status << endl;
@@ -209,7 +213,7 @@ int UsbInt::closePort()
 string UsbInt::readNewData(void)
 {
 #if(dbg >= 1)
-	if(debugOutput) cout << "***** ENTERING: UsbInt::getNewData" << endl;
+	 cout << "***** ENTERING: UsbInt::getNewData" << endl;
 #endif
 
 	char usbInputBuffer[SPI_RX_BUFFER_SIZE];
@@ -226,15 +230,15 @@ string UsbInt::readNewData(void)
 		usbString = string(usbInputBuffer);
 		stringIsValid = validateString(usbString);
 #if(dbg >= 1)
-		if(debugOutput) cout << "USB received size: " << strlen(this->usbInputBuffer) << ":\t" << this->usbInputBuffer << endl;
-		if(debugOutput) cout << "clean data size: " << strlen(this->usbCleanInputBuffer )<< ":\t" << this->usbCleanInputBuffer << endl;
+		 cout << "USB received size: " << strlen(this->usbInputBuffer) << ":\t" << this->usbInputBuffer << endl;
+		 cout << "clean data size: " << strlen(this->usbCleanInputBuffer )<< ":\t" << this->usbCleanInputBuffer << endl;
 #endif
 		status = 0;
 	}
 	else status = -1;
 
 #if(dbg >= 1)
-	if(debugOutput) cout << "***** EXITING: UsbInt::getNewData" << status << endl;
+	 cout << "***** EXITING: UsbInt::getNewData" << status << endl;
 #endif
 	if(stringIsValid) return usbString;
 	else return string("");
@@ -246,12 +250,12 @@ int UsbInt::writeData(string input)
 {
 	int status = 0;
 #if(dbg >= 1)
-	if(debugOutput) cout << "***** ENTERING: UsbInt::writeData" << endl;
+	 cout << "***** ENTERING: UsbInt::writeData" << endl;
 #endif
 
 #if(dbg >= 2)
 
-	if(debugOutput) cout << "dataString: " << this->usbOutputBuffer << endl;
+	 cout << "dataString: " << this->usbOutputBuffer << endl;
 #endif
 
 	ssize_t size_write = write(this->usbFD, input.c_str(), input.size());
@@ -260,8 +264,9 @@ int UsbInt::writeData(string input)
 	else status = -1;
 
 #if(dbg >= 1)
-	if(debugOutput) cout << "***** EXITING: UsbInt::writeData" << endl;
+	 cout << "***** EXITING: UsbInt::writeData" << endl;
 #endif
 
 	return status;
+}
 }

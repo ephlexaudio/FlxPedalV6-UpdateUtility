@@ -11,16 +11,15 @@
 
 
 #define OPEN_TRANSFER_CLOSE 0
-using namespace std;
+
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
-/*static const char *device0 = "/dev/spidev0.0";
-static uint8_t mode = 0;
-static uint8_t bits = 8;
-static uint32_t speed = 100000;
 
-int spiFD;*/
+namespace std
+{
+
+
 
 SPI::SPI()
 {
@@ -139,12 +138,12 @@ SPI::~SPI()
 
 
 #define dbg 2
-uint8_t SPI::sendData(char *data, int length)
+int SPI::sendData(char *data, int length)
 {
 #if(dbg >= 1)
 	cout << "***** ENTERING: SPI::sendData" << endl;
 #endif
-	uint8_t status = 0;
+	int status = 0;
 	char txBuffer[SPI_TX_BUFFER_SIZE];
 	char rxBuffer[SPI_RX_BUFFER_SIZE];
 	clearBuffer(txBuffer,SPI_TX_BUFFER_SIZE);
@@ -192,13 +191,13 @@ uint8_t SPI::sendData(char *data, int length)
 }
 
 #define dbg 2
-uint8_t SPI::getData(char *data, uint16_t length)
+int SPI::getData(char *data, int length)
 {
 #if(dbg >= 1)
 	cout << "***** ENTERING: SPI::getData" << endl;
 #endif
 
-	uint8_t status = 0;
+	int status = 0;
 
 	char txBuffer[SPI_TX_BUFFER_SIZE];
 	char rxBuffer[SPI_RX_BUFFER_SIZE];
@@ -233,4 +232,5 @@ uint8_t SPI::getData(char *data, uint16_t length)
 #endif
 
 	return status;
+}
 }

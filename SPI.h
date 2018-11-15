@@ -25,16 +25,20 @@
 
 #include "config.h"
 
+namespace std
+{
+
+
 
 
 class SPI
 {
 private:
-	uint8_t status;
+	int status;
 	const char *device0 = "/dev/spidev0.0";
-	uint8_t mode = 0;
-	uint8_t bits = 8;
-	uint32_t speed = 100000;
+	int mode = 0;
+	int bits = 8;
+	int speed = 100000;
 
 	int spiFD;
 public:
@@ -42,11 +46,11 @@ public:
 	~SPI();
 
 
-	uint8_t sendData(char *data, int length);
-	uint8_t getData(char *data, uint16_t length);
+	int sendData(char *data, int length);
+	int getData(char *data, int length);
 
 };
 
-
+}
 
 #endif /* SHAREDMEMORYINT_H_ */

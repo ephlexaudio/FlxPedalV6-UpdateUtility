@@ -10,7 +10,10 @@
 #include "config.h"
 
 
-using namespace std;
+namespace std
+{
+
+
 
 PedalUi::PedalUi() {
 	// TODO Auto-generated constructor stub
@@ -55,7 +58,7 @@ GPIOClass PedalUi::initializePin(GPIOClass pin, int pinNumber, string direction)
 #if(dbg >= 1)
 	cout << "********** EXITING PedalUi::initializePin: " << status << endl;
 #endif
-	if(status == -1) pin = NULL;
+	if(status == -1) pin = 0;
 	return pin;
 }
 
@@ -253,4 +256,5 @@ void PedalUi::powerOff()
 	cout << "********** EXITING PedalUi::powerOff: " << endl;
 #endif
 
+}
 }

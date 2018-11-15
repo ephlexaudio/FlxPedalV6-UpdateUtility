@@ -10,6 +10,11 @@
 
 #include "UsbInt.h"
 #include <vector>
+
+namespace std
+{
+
+
 #define FILE_SIZE 32000
 class HostUiInt : public UsbInt
 {
@@ -24,5 +29,5 @@ public:
 	void requestUpdateFromEditor(void);
 	int sendCurrentStatus(string currentStatus);
 };
-
+}
 #endif /* HOSTUIINT_H_ */

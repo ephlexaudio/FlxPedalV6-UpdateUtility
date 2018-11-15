@@ -27,9 +27,16 @@
 #include <iostream>
 #include <json/json.h>
 #include <algorithm>
-using namespace std;
+
+
+namespace std
+{
+
+
+
 
 void clearBuffer(char *buffer, int bufferSize);
 void pabort(const char *s);
 bool validateString(string &data);
+}
 #endif /* UTILITIES_H_ */

@@ -25,7 +25,10 @@
 #include "Utilities.h"
 #include "ComputeModulePinOuts2.h"
 #include "GPIOClass.h"
-using namespace std;
+
+
+namespace std
+{
 
 class UsbInt
 {
@@ -52,5 +55,5 @@ public:
 	string readNewData(void);
 	int writeData(string input);
 };
-
+}
 #endif /* USBINT_H_ */

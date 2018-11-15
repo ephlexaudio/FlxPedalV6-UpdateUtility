@@ -11,9 +11,13 @@
 
 #define FILE_SIZE 32000
 
-using namespace std;
 
-extern bool debugOutput;
+
+
+namespace std
+{
+
+
 
 HostUiInt::HostUiInt()
 {
@@ -30,11 +34,11 @@ string HostUiInt::getUserRequest(void)
 {
 	string hostData;
 #if(dbg >= 1)
-	if(debugOutput) cout << "***** ENTERING: HostUiInt::getUserRequest" << endl;
+	cout << "***** ENTERING: HostUiInt::getUserRequest" << endl;
 #endif
 	hostData = UsbInt::readNewData();
 #if(dbg >= 1)
-	if(debugOutput) cout << "***** EXITING: HostUiInt::getUserRequest: " << hostData << endl;
+	cout << "***** EXITING: HostUiInt::getUserRequest: " << hostData << endl;
 #endif
 	return hostData;
 }
@@ -68,7 +72,7 @@ int HostUiInt::sendCurrentStatus(string currentStatus)
 	int status = 0;
 
 #if(dbg >= 1)
-	if(debugOutput) cout << "***** ENTERING: HostUiInt::sendCurrentStatus" << endl;
+	cout << "***** ENTERING: HostUiInt::sendCurrentStatus" << endl;
 #endif
 	string hostUiResponseString;
 	hostUiResponseString = "<CurrentStatus>" + currentStatus + "</CurrentStatus>";
@@ -82,8 +86,9 @@ int HostUiInt::sendCurrentStatus(string currentStatus)
 	}
 
 #if(dbg >= 1)
-	if(debugOutput) cout << "***** EXITING: HostUiInt::sendCurrentStatus: " << status << endl;
+	cout << "***** EXITING: HostUiInt::sendCurrentStatus: " << status << endl;
 #endif
 
 	return status;
+}
 }
