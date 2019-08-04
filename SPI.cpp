@@ -16,8 +16,7 @@
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 
-namespace std
-{
+using namespace std;
 
 
 
@@ -233,4 +232,4 @@ int SPI::getData(char *data, int length)
 
 	return status;
 }
-}
+

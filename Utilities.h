@@ -29,14 +29,12 @@
 #include <algorithm>
 
 
-namespace std
-{
 
-
+using std::string;
 
 
 void clearBuffer(char *buffer, int bufferSize);
 void pabort(const char *s);
 bool validateString(string &data);
-}
+
 #endif /* UTILITIES_H_ */

@@ -10,8 +10,7 @@
 #include "config.h"
 
 
-namespace std
-{
+using namespace std;
 
 
 
@@ -257,4 +256,4 @@ void PedalUi::powerOff()
 #endif
 
 }
-}
+

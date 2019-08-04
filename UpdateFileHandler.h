@@ -27,9 +27,6 @@
 
 
 
-namespace std
-{
-
 	class UpdateFileHandler
 	{
 	private:
@@ -46,6 +43,6 @@ namespace std
 		bool areFlxBinariesInHomeFolder();
 	};
 
-} /* namespace std */
+
 
 #endif /* UPDATEFILEHANDLER_H_ */

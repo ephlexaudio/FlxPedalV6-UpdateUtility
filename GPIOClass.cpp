@@ -8,8 +8,6 @@
 
 using namespace std;
 
-namespace std
-{
 
 
 GPIOClass::GPIOClass()
@@ -151,4 +149,4 @@ int/*string*/ GPIOClass::get_gpionum(){
 return this->gpionum;
 
 }
-}
+

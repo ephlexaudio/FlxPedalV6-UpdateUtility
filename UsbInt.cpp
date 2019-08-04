@@ -11,8 +11,7 @@
 
 
 
-namespace std
-{
+using namespace std;
 
 
 
@@ -269,4 +268,4 @@ int UsbInt::writeData(string input)
 
 	return status;
 }
-}
+

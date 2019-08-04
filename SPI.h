@@ -25,10 +25,6 @@
 
 #include "config.h"
 
-namespace std
-{
-
-
 
 
 class SPI
@@ -51,6 +47,6 @@ public:
 
 };
 
-}
+
 
 #endif /* SHAREDMEMORYINT_H_ */

@@ -14,8 +14,8 @@
 
 
 
-namespace std
-{
+using namespace std;
+
 
 
 
@@ -91,4 +91,4 @@ int HostUiInt::sendCurrentStatus(string currentStatus)
 
 	return status;
 }
-}
+

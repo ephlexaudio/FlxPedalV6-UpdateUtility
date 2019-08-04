@@ -7,9 +7,7 @@
 
 #include "Utilities.h"
 
-namespace std
-{
-
+using namespace std;
 
 
 
@@ -46,4 +44,4 @@ bool validateString(string &data)
 
 	return dataIsValid;
 }
-}
+

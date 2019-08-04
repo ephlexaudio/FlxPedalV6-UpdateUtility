@@ -9,8 +9,7 @@
  * The GPIO pin number must be passed to the overloaded class constructor
  */
 
-namespace std
-{
+
 
 
 class GPIOClass
@@ -30,5 +29,5 @@ public:
     int getval_gpio(int/*string &*/ &val);
     int/*string*/ get_gpionum();
 };
-}
+
 #endif

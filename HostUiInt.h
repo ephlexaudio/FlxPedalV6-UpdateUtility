@@ -11,8 +11,7 @@
 #include "UsbInt.h"
 #include <vector>
 
-namespace std
-{
+
 
 
 #define FILE_SIZE 32000
@@ -23,11 +22,12 @@ public:
 
 	HostUiInt();
 	 ~HostUiInt();
+
 	// Files are retrieved from the directory and sent straight to the host
 	string getUserRequest(void);
 
 	void requestUpdateFromEditor(void);
 	int sendCurrentStatus(string currentStatus);
 };
-}
+
 #endif /* HOSTUIINT_H_ */

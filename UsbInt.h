@@ -27,8 +27,6 @@
 #include "GPIOClass.h"
 
 
-namespace std
-{
 
 class UsbInt
 {
@@ -55,5 +53,5 @@ public:
 	string readNewData(void);
 	int writeData(string input);
 };
-}
+
 #endif /* USBINT_H_ */

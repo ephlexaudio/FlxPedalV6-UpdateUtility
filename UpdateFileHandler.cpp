@@ -7,8 +7,7 @@
 
 #include "UpdateFileHandler.h"
 
-namespace std
-{
+using namespace std;
 
 	UpdateFileHandler::UpdateFileHandler ()
 	{
@@ -145,5 +144,3 @@ namespace std
 	}
 
 
-
-} /* namespace std */
